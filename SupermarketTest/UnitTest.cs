@@ -64,44 +64,42 @@ namespace SupermarketTest
         [Test]
         public void CartTotalPriceTest()
         {
-            ShoppingCart.NewCart();
-            ShoppingCart.AddToCart(new GenericItem("Item 1", 2.50), 10); // unit
-            ShoppingCart.AddToCart(new GenericItem("Item 2", 2.50), 10.5); // weight
-
-            ShoppingCart.AddToCart(new BuyXGetYFreeItem("Item 3", 1.50, 2, 1), 10); // unit
-            ShoppingCart.AddToCart(new BuyXGetYFreeItem("Item 4", 1.50, 1.5, 2.5), 10); // weight
-
-            ShoppingCart.AddToCart(new BuyXatPriceYItem("Item 5", 1.50, 2, 2.5), 10); // unit
-            ShoppingCart.AddToCart(new BuyXatPriceYItem("Item 6", 1.50, 2.5, 3), 10); // weight
+            FillUpCart();
 
             double expected = 25 + 26.25 + 10.5 + 7.5 + 12.5 + 12; // prices from individual tests
             Assert.AreEqual(expected, ShoppingCart.GetTotalPrice());
         }
 
         [Test]
-        public void CartCheckoutTest()
+        public void ReceiptTest()
+        {
+            FillUpCart();
+
+            string expected = "Name       Quantity     Price\r\n" +
+                              "-----------------------------\r\n" +
+                              "Item 1     10         $ 25.00\r\n" +
+                              "Item 2     10.5kg     $ 26.25\r\n" +
+                              "Item 3     10         $ 10.50\r\n" +
+                              "Item 4     10kg       $  7.50\r\n" +
+                              "Item 5     10         $ 12.50\r\n" +
+                              "Item 6     10kg       $ 12.00\r\n" +
+                              "=============================\r\n" +
+                              "Total Price           $ 93.75\r\n"; // total from CartTotalPriceTest()
+
+            Assert.AreEqual(expected, ShoppingCart.GetReceipt());
+        }
+
+        private static void FillUpCart()
         {
             ShoppingCart.NewCart();
             ShoppingCart.AddToCart(new GenericItem("Item 1", 2.50), 10); // unit
-            ShoppingCart.AddToCart(new GenericItem("Item 2", 2.50), 10.5); // weight
+            ShoppingCart.AddToCart(new GenericItem("Item 2", 2.50, "kg"), 10.5); // weight
 
             ShoppingCart.AddToCart(new BuyXGetYFreeItem("Item 3", 1.50, 2, 1), 10); // unit
-            ShoppingCart.AddToCart(new BuyXGetYFreeItem("Item 4", 1.50, 1.5, 2.5), 10); // weight
+            ShoppingCart.AddToCart(new BuyXGetYFreeItem("Item 4", 1.50, "kg", 1.5, 2.5), 10); // weight
 
             ShoppingCart.AddToCart(new BuyXatPriceYItem("Item 5", 1.50, 2, 2.5), 10); // unit
-            ShoppingCart.AddToCart(new BuyXatPriceYItem("Item 6", 1.50, 2.5, 3), 10); // weight
-
-            string expected = "Name\t  Qty\t  Price\r\n" +
-                              "Item 1\tx 10\t: $25.00\r\n" +
-                              "Item 2\tx 10.5\t: $26.25\r\n" +
-                              "Item 3\tx 10\t: $10.50\r\n" +
-                              "Item 4\tx 10\t: $7.50\r\n" +
-                              "Item 5\tx 10\t: $12.50\r\n" +
-                              "Item 6\tx 10\t: $12.00\r\n" +
-                              "========================\r\n" +
-                              "Total\t\t: $93.75\r\n"; // total from CartTotalPriceTest()
-
-            Assert.AreEqual(expected, ShoppingCart.Checkout());
+            ShoppingCart.AddToCart(new BuyXatPriceYItem("Item 6", 1.50, "kg", 2.5, 3), 10); // weight
         }
     }
 }

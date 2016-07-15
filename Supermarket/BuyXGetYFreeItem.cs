@@ -12,6 +12,14 @@
             this.GetY = getY;
         }
 
+        // items with weight as unit
+        public BuyXGetYFreeItem(string name, double unitPrice, string unit, double buyX, double getY)
+            : base(name, unitPrice, unit)
+        {
+            this.BuyX = buyX;
+            this.GetY = getY;
+        }
+
         public override double GetPrice(double qty)
         {
             return GetDiscountedTotalPrice(qty) + GetUndiscountedTotalPrice(qty);

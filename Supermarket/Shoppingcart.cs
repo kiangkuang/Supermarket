@@ -44,25 +44,42 @@ namespace Supermarket
             return sum;
         }
 
-        public static string Checkout()
+        public static string GetReceipt()
         {
             StringBuilder sb = new StringBuilder();
-            sb.AppendLine("Name\t  Qty\t  Price");
+            BuildReceiptHeader(sb);
             foreach (KeyValuePair<GenericItem, double> itemQuantityPair in Cart)
             {
-                sb.AppendLine(itemQuantityPair.Key.Name + "\tx "
-                    + itemQuantityPair.Value + "\t: "
-                    + MoneyFormat(itemQuantityPair.Key.GetPrice(itemQuantityPair.Value)));
+                BuildReceiptItem(sb, itemQuantityPair);
             }
-            sb.AppendLine("========================");
-            sb.AppendLine("Total\t\t: " + MoneyFormat(GetTotalPrice()));
+            BuildReceiptFooter(sb);
 
             return sb.ToString();
         }
 
-        private static string MoneyFormat(double money)
+        private static void BuildReceiptHeader(StringBuilder sb)
         {
-            return Convert.ToDecimal(money).ToString("C");
+            sb.AppendLine(String.Format("{0,-10} {1,-10} {2,7}", "Name", "Quantity", "Price"));
+            sb.AppendLine("-----------------------------");
+        }
+
+        private static void BuildReceiptItem(StringBuilder sb, KeyValuePair<GenericItem, double> itemQuantityPair)
+        {
+            string itemName = itemQuantityPair.Key.Name;
+            string qty = itemQuantityPair.Value + itemQuantityPair.Key.Unit;
+            string price = ConvertDecimalFormat(itemQuantityPair.Key.GetPrice(itemQuantityPair.Value));
+            sb.AppendLine(String.Format("{0,-10} {1,-10} {2,1} {3,5}", itemName, qty, "$", price));
+        }
+
+        private static void BuildReceiptFooter(StringBuilder sb)
+        {
+            sb.AppendLine("=============================");
+            sb.AppendLine(String.Format("{0,-21} {1,1} {2,5}", "Total Price", "$", ConvertDecimalFormat(GetTotalPrice())));
+        }
+
+        private static string ConvertDecimalFormat(double value)
+        {
+            return Convert.ToDecimal(value).ToString("#.00");
         }
     }
 }

@@ -39,7 +39,7 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BuyXatYPriceItem.cs" />
+    <Compile Include="BuyXatPriceYItem.cs" />
     <Compile Include="BuyXGetYFreeItem.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="GenericItem.cs" />

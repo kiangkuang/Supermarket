@@ -86,7 +86,7 @@ namespace SupermarketTest
                               "=============================\r\n" +
                               "Total Price           $ 93.75\r\n"; // total from CartTotalPriceTest()
 
-            Assert.AreEqual(expected, ShoppingCart.GetReceipt());
+            Assert.AreEqual(expected, Receipt.GetReceipt());
         }
 
         private static void FillUpCart()

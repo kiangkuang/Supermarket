@@ -43,6 +43,7 @@
     <Compile Include="BuyXGetYFreeItem.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="GenericItem.cs" />
+    <Compile Include="Receipt.cs" />
     <Compile Include="ShoppingCart.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

@@ -20,9 +20,9 @@ namespace SupermarketTest
         [TestCase(2, 1, 10, 10.5)]
         // by weight
         [TestCase(1.5, 2.5, 10, 7.5)]
-        public void BuyXGetYFreeItemTest(double buyX, double buyY, double qty, double expected)
+        public void BuyXGetYFreeItemTest(double buyX, double getY, double qty, double expected)
         {
-            BuyXGetYFreeItem item = new BuyXGetYFreeItem("Buy X Get Y Free Item Name", 1.50, buyX, buyY);
+            BuyXGetYFreeItem item = new BuyXGetYFreeItem("Buy X Get Y Free Item Name", 1.50, buyX, getY);
             Assert.AreEqual(expected, item.GetPrice(qty));
         }
 
@@ -32,7 +32,7 @@ namespace SupermarketTest
         [TestCase(2.5, 3, 10, 12)]
         public void BuyXatYPriceItemTest(double buyX, double priceY, double qty, double expected)
         {
-            BuyXatYPriceItem item = new BuyXatYPriceItem("Buy X at Y Price Item Name", 1.50, buyX, priceY);
+            BuyXatPriceYItem item = new BuyXatPriceYItem("Buy X at Price Y Item Name", 1.50, buyX, priceY);
             Assert.AreEqual(expected, item.GetPrice(qty));
         }
 
@@ -65,12 +65,43 @@ namespace SupermarketTest
         public void CartTotalPriceTest()
         {
             ShoppingCart.NewCart();
-            ShoppingCart.AddToCart(new GenericItem("a", 1.00), 10); // unit
-            ShoppingCart.AddToCart(new GenericItem("b", 1.00), 10.5); // weight
-            ShoppingCart.AddToCart(new BuyXGetYFreeItem("c", 1.00, 2, 1), 10); // unit
-            ShoppingCart.AddToCart(new BuyXGetYFreeItem("d", 1.00, 1.5, 1), 10); // weight
+            ShoppingCart.AddToCart(new GenericItem("Item 1", 2.50), 10); // unit
+            ShoppingCart.AddToCart(new GenericItem("Item 2", 2.50), 10.5); // weight
 
-            Assert.AreEqual(10 + 10.5 + 7 + 6, ShoppingCart.GetTotalPrice());
+            ShoppingCart.AddToCart(new BuyXGetYFreeItem("Item 3", 1.50, 2, 1), 10); // unit
+            ShoppingCart.AddToCart(new BuyXGetYFreeItem("Item 4", 1.50, 1.5, 2.5), 10); // weight
+
+            ShoppingCart.AddToCart(new BuyXatPriceYItem("Item 5", 1.50, 2, 2.5), 10); // unit
+            ShoppingCart.AddToCart(new BuyXatPriceYItem("Item 6", 1.50, 2.5, 3), 10); // weight
+
+            double expected = 25 + 26.25 + 10.5 + 7.5 + 12.5 + 12; // prices from individual tests
+            Assert.AreEqual(expected, ShoppingCart.GetTotalPrice());
+        }
+
+        [Test]
+        public void CartCheckoutTest()
+        {
+            ShoppingCart.NewCart();
+            ShoppingCart.AddToCart(new GenericItem("Item 1", 2.50), 10); // unit
+            ShoppingCart.AddToCart(new GenericItem("Item 2", 2.50), 10.5); // weight
+
+            ShoppingCart.AddToCart(new BuyXGetYFreeItem("Item 3", 1.50, 2, 1), 10); // unit
+            ShoppingCart.AddToCart(new BuyXGetYFreeItem("Item 4", 1.50, 1.5, 2.5), 10); // weight
+
+            ShoppingCart.AddToCart(new BuyXatPriceYItem("Item 5", 1.50, 2, 2.5), 10); // unit
+            ShoppingCart.AddToCart(new BuyXatPriceYItem("Item 6", 1.50, 2.5, 3), 10); // weight
+
+            string expected = "Name\t  Qty\t  Price\r\n" +
+                              "Item 1\tx 10\t: $25.00\r\n" +
+                              "Item 2\tx 10.5\t: $26.25\r\n" +
+                              "Item 3\tx 10\t: $10.50\r\n" +
+                              "Item 4\tx 10\t: $7.50\r\n" +
+                              "Item 5\tx 10\t: $12.50\r\n" +
+                              "Item 6\tx 10\t: $12.00\r\n" +
+                              "========================\r\n" +
+                              "Total\t\t: $93.75\r\n"; // total from CartTotalPriceTest()
+
+            Assert.AreEqual(expected, ShoppingCart.Checkout());
         }
     }
 }

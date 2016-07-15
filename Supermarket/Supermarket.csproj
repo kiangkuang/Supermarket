@@ -5,7 +5,7 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{60D86ED0-08DF-46F1-BEB2-F3E516100D68}</ProjectGuid>
-    <OutputType>Library</OutputType>
+    <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Supermarket</RootNamespace>
     <AssemblyName>Supermarket</AssemblyName>
@@ -41,6 +41,7 @@
   <ItemGroup>
     <Compile Include="BuyXatYPriceItem.cs" />
     <Compile Include="BuyXGetYFreeItem.cs" />
+    <Compile Include="Program.cs" />
     <Compile Include="GenericItem.cs" />
     <Compile Include="ShoppingCart.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

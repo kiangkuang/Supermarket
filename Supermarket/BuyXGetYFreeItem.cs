@@ -2,8 +2,8 @@
 {
     public class BuyXGetYFreeItem : GenericItem
     {
-        protected double BuyX;
-        protected double GetY;
+        public double BuyX { get; set; }
+        public double GetY { get; set; }
 
         public BuyXGetYFreeItem(string name, double unitPrice, double buyX, double getY)
             : base(name, unitPrice)

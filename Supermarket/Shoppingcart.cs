@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Text;
 
 namespace Supermarket
 {
@@ -40,6 +42,27 @@ namespace Supermarket
                 sum += itemQuantityPair.Key.GetPrice(itemQuantityPair.Value);
             }
             return sum;
+        }
+
+        public static string Checkout()
+        {
+            StringBuilder sb = new StringBuilder();
+            sb.AppendLine("Name\t  Qty\t  Price");
+            foreach (KeyValuePair<GenericItem, double> itemQuantityPair in Cart)
+            {
+                sb.AppendLine(itemQuantityPair.Key.Name + "\tx "
+                    + itemQuantityPair.Value + "\t: "
+                    + MoneyFormat(itemQuantityPair.Key.GetPrice(itemQuantityPair.Value)));
+            }
+            sb.AppendLine("========================");
+            sb.AppendLine("Total\t\t: " + MoneyFormat(GetTotalPrice()));
+
+            return sb.ToString();
+        }
+
+        private static string MoneyFormat(double money)
+        {
+            return Convert.ToDecimal(money).ToString("C");
         }
     }
 }

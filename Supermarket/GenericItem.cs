@@ -2,8 +2,8 @@
 {
     public class GenericItem
     {
-        protected string Name;
-        protected double UnitPrice;
+        public string Name { get; set; }
+        public double UnitPrice { get; set; }
 
         public GenericItem(string name, double unitPrice)
         {

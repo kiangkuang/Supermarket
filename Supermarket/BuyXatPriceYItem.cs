@@ -1,11 +1,11 @@
 ﻿namespace Supermarket
 {
-    public class BuyXatYPriceItem : GenericItem
+    public class BuyXatPriceYItem : GenericItem
     {
-        protected double BuyX;
-        protected double PriceY;
+        public double BuyX { get; set; }
+        public double PriceY { get; set; }
 
-        public BuyXatYPriceItem(string name, double unitPrice, double buyX, double priceY)
+        public BuyXatPriceYItem(string name, double unitPrice, double buyX, double priceY)
             : base(name, unitPrice)
         {
             this.BuyX = buyX;
